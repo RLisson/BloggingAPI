@@ -1,23 +1,24 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using BloggingAPI.Model.Base;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BloggingAPI.Model
 {
     [Table("posts")]
-    public class Post
+    public class Post : BaseEntity
     {
         [Column("title")]
-        string Title { get; set; }
+        public string Title { get; set; }
 
         [Column("content")]
-        string Content { get; set; }
+        public string Content { get; set; }
 
         [Column("category")]
-        string Category { get; set; }
+        public string Category { get; set; }
 
         [Column("created_at")]
-        DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         [Column("updated_at")]
-        DateTime UpdatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

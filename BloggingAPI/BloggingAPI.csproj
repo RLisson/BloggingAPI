@@ -7,7 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="appsettings.json.example" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json.example" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Evolve" Version="3.2.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
+    <PackageReference Include="Serilog" Version="4.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
   </ItemGroup>
 

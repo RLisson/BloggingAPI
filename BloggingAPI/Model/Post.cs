@@ -14,9 +14,6 @@ namespace BloggingAPI.Model
         [Column("category")]
         string Category { get; set; }
 
-        [Column("tags")]
-        string[] Tags { get; set; } = new string[2];
-
         [Column("created_at")]
         DateTime CreatedAt { get; set; }
 

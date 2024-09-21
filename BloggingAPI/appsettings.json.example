@@ -1,0 +1,12 @@
+{
+  "MySQLConnection": {
+    "MySQLConnectionString":  "Server=SERVER;DataBase=DBNAME;Uid=USER;Pwd=PASSWORD"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}

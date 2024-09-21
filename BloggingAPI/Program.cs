@@ -1,4 +1,7 @@
+using BloggingAPI.Business;
+using BloggingAPI.Business.Implementations;
 using BloggingAPI.Model.Context;
+using BloggingAPI.Repository.Generic;
 using EvolveDb;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
@@ -21,10 +24,7 @@ namespace BloggingAPI
             }));
 
             // Add services to the container.
-
             builder.Services.AddControllers();
-
-            var app = builder.Build();
 
             // DB Connection
             var connection = builder.Configuration["MySQLConnection:MySQLConnectionString"];
@@ -39,9 +39,21 @@ namespace BloggingAPI
                 MigrateDatabase(connection);
             }
 
+            // Versioning API
+            builder.Services.AddApiVersioning();
+
+            // Dependecy injection
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+            builder.Services.AddScoped<IPostBusiness, PostBusinessImplementation>();
+
+            var app = builder.Build();
+
             // Configure the HTTP request pipeline.
 
             app.UseHttpsRedirection();
+
+            // CORS
+            app.UseCors();
 
             app.UseAuthorization();
 

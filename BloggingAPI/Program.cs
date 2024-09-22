@@ -1,5 +1,7 @@
 using BloggingAPI.Business;
 using BloggingAPI.Business.Implementations;
+using BloggingAPI.Hypermedia.Enricher;
+using BloggingAPI.Hypermedia.Filters;
 using BloggingAPI.Model.Context;
 using BloggingAPI.Repository.Generic;
 using EvolveDb;
@@ -38,6 +40,11 @@ namespace BloggingAPI
             {
                 MigrateDatabase(connection);
             }
+
+            // HATEOAS
+            var filterOptions = new HyperMediaFilterOptions();
+            filterOptions.ContentResponseEnricherList.Add(new PostEnricher());
+            builder.Services.AddSingleton(filterOptions);
 
             // Versioning API
             builder.Services.AddApiVersioning();

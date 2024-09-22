@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using BloggingAPI.Business;
 using BloggingAPI.Data.VO;
+using BloggingAPI.Hypermedia.Filters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BloggingAPI.Controllers
@@ -20,12 +21,22 @@ namespace BloggingAPI.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(200, Type= typeof(List<PostVO>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Find()
         {
             return Ok(_postBusiness.FindAll());
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(PostVO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(404)]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Find(int id)
         {
             var post = _postBusiness.FindByID(id);
@@ -34,6 +45,10 @@ namespace BloggingAPI.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(200, Type = typeof(PostVO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Create([FromBody] PostVO post)
         {
             if (post == null) return BadRequest();
@@ -41,6 +56,10 @@ namespace BloggingAPI.Controllers
         }
 
         [HttpPut]
+        [ProducesResponseType(200, Type = typeof(PostVO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Update([FromBody] PostVO post)
         {
             if (post == null) return BadRequest();
@@ -48,6 +67,10 @@ namespace BloggingAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Delete(int id)
         {
             _postBusiness.Delete(id);

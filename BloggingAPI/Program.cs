@@ -5,7 +5,9 @@ using BloggingAPI.Hypermedia.Filters;
 using BloggingAPI.Model.Context;
 using BloggingAPI.Repository.Generic;
 using EvolveDb;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using MySqlConnector;
 using Serilog;
 
@@ -49,6 +51,23 @@ namespace BloggingAPI
             // Versioning API
             builder.Services.AddApiVersioning();
 
+            // Swagger
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1",
+                    new OpenApiInfo
+                    {
+                        Title = "RESTful Blogging API",
+                        Version = "v1",
+                        Description = "Blogging API RESTful from roadmap.sh challenge",
+                        Contact = new OpenApiContact
+                        {
+                            Name = "Lucas Risson",
+                            Url = new Uri("https://github.com/RLisson")
+                        }
+                    });
+            });
+
             // Dependecy injection
             builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
             builder.Services.AddScoped<IPostBusiness, PostBusinessImplementation>();
@@ -62,10 +81,21 @@ namespace BloggingAPI
             // CORS
             app.UseCors();
 
+            // Swagger
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json",
+                    "RESTful Blogging API");
+            });
+            var option = new RewriteOptions();
+            option.AddRedirect("^$", "swagger");
+            app.UseRewriter(option);
+
             app.UseAuthorization();
 
-
             app.MapControllers();
+            app.MapControllerRoute("DefaultApi", "{controller=values}/v{version=apiVersion}/{id?}");
 
             app.Run();
         }

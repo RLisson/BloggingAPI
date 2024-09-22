@@ -9,7 +9,7 @@ namespace BloggingAPI.Hypermedia.Enricher
     {
         protected override Task EnrichModel(PostVO content, IUrlHelper urlHelper)
         {
-            var path = "api/post";
+            var path = "api/posts";
             string link = getLink(content.Id, urlHelper, path);
 
             content.Links.Add(new HyperMediaLink()
